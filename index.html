@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personnalisation CSS Permanente</title>
+    <style>
+        /* Style de base pour la page d'administration */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Panneau de personnalisation */
+        .customizer-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            height: fit-content;
+        }
+
+        .customizer-panel h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .control-group input[type="color"] {
+            width: 100%;
+            height: 50px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .control-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .control-group select:focus {
+            border-color: #667eea;
+        }
+
+        .value-display {
+            display: inline-block;
+            margin-left: 10px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Boutons */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Zone de prévisualisation */
+        .preview-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .preview-panel h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* Styles pour le contenu prévisualisé */
+        .preview-content {
+            padding: 20px;
+            background: var(--bg-color, #f8f9fa);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .preview-card {
+            background: var(--card-bg, white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .preview-card h3 {
+            color: var(--heading-color, #333);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .preview-card p {
+            color: var(--text-color, #666);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .preview-button {
+            background: var(--button-bg, #667eea);
+            color: var(--button-text, white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius, 8px);
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .preview-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* CSS personnalisé */
+        .custom-css-panel {
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-top: 30px;
+        }
+
+        .custom-css-panel h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .custom-css-panel textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .custom-css-panel textarea:focus {
+            border-color: #667eea;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Panneau de personnalisation -->
+        <div class="customizer-panel">
+            <h2>🎨 Personnalisation CSS</h2>
+            
+            <div class="control-group">
+                <label>Couleur de fond principale :</label>
+                <input type="color" id="bgColor" value="#f8f9fa">
+            </div>
+
+            <div class="control-group">
+                <label>Couleur des cartes :</label>
+                <input type="color" id="cardBg" value="#ffffff">
+            </div>
+
+            <div class="control-group">
+                <label>Couleur des titres :</label>
+                <input type="color" id="headingColor" value="#333333">
+            </div>
+
+            <div class="control-group">
+                <label>Couleur du texte :</label>
+                <input type="color" id="textColor" value="#666666">
+            </div>
+
+            <div class="control-group">
+                <label>Couleur des boutons :</label>
+                <input type="color" id="buttonBg" value="#667eea">
+            </div>
+
+            <div class="control-group">
+                <label>Couleur du texte des boutons :</label>
+                <input type="color" id="buttonText" value="#ffffff">
+            </div>
+
+            <div class="control-group">
+                <label>Rayon des bordures : <span id="borderRadiusValue" class="value-display">8px</span></label>
+                <input type="range" id="borderRadius" min="0" max="30" value="8">
+            </div>
+
+            <div class="control-group">
+                <label>Police de caractères :</label>
+                <select id="fontFamily">
+                    <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+                    <option value="'Arial', sans-serif">Arial</option>
+                    <option value="'Helvetica', sans-serif">Helvetica</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier New</option>
+                    <option value="'Georgia', serif">Georgia</option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="applyStyles()">Appliquer les styles</button>
+                <button class="btn btn-secondary" onclick="resetToDefaults()">Réinitialiser</button>
+                <button class="btn btn-danger" onclick="clearStyles()">Effacer tout</button>
+            </div>
+        </div>
+
+        <!-- Zone de prévisualisation -->
+        <div class="preview-panel">
+            <h2>👁️ Prévisualisation</h2>
+            <div class="preview-content" id="previewContent">
+                <div class="preview-card">
+                    <h3>Exemple de contenu</h3>
+                    <p>Ceci est un exemple de texte pour voir comment vos modifications CSS affectent l'apparence du contenu. Les changements seront sauvegardés automatiquement dans votre navigateur.</p>
+                    <button class="preview-button">Bouton d'exemple</button>
+                </div>
+                <div class="preview-card">
+                    <h3>Deuxième carte</h3>
+                    <p>Une autre carte pour voir l'effet sur plusieurs éléments. Personnalisez les couleurs, les polices, et plus encore !</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panneau CSS personnalisé -->
+        <div class="custom-css-panel">
+            <h2>📝 CSS Personnalisé</h2>
+            <textarea id="customCSS" placeholder="Écrivez votre CSS personnalisé ici..."></textarea>
+            <div class="btn-group" style="margin-top: 15px;">
+                <button class="btn btn-primary" onclick="applyCustomCSS()">Appliquer le CSS personnalisé</button>
+                <button class="btn btn-secondary" onclick="loadSavedStyles()">Recharger les styles</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Styles sauvegardés avec succès !
+    </div>
+
+    <script>
+        // Charger les styles sauvegardés au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedStyles();
+        });
+
+        // Appliquer tous les styles
+        function applyStyles() {
+            // Récupérer les valeurs des contrôles
+            const bgColor = document.getElementById('bgColor').value;
+            const cardBg = document.getElementById('cardBg').value;
+            const headingColor = document.getElementById('headingColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const buttonBg = document.getElementById('buttonBg').value;
+            const buttonText = document.getElementById('buttonText').value;
+            const borderRadius = document.getElementById('borderRadius').value;
+            const fontFamily = document.getElementById('fontFamily').value;
+
+            // Mettre à jour les variables CSS
+            const previewContent = document.getElementById('previewContent');
+            previewContent.style.setProperty('--bg-color', bgColor);
+            previewContent.style.setProperty('--card-bg', cardBg);
+            previewContent.style.setProperty('--heading-color', headingColor);
+            previewContent.style.setProperty('--text-color', textColor);
+            previewContent.style.setProperty('--button-bg', buttonBg);
+            previewContent.style.setProperty('--button-text', buttonText);
+            previewContent.style.setProperty('--border-radius', borderRadius + 'px');
+            previewContent.style.fontFamily = fontFamily;
+
+            // Mettre à jour l'affichage de la valeur du rayon
+            document.getElementById('borderRadiusValue').textContent = borderRadius + 'px';
+
+            // Sauvegarder dans localStorage
+            saveStyles();
+        }
+
+        // Sauvegarder les styles dans localStorage
+        function saveStyles() {
+            const styles = {
+                bgColor: document.getElementById('bgColor').value,
+                cardBg: document.getElementById('cardBg').value,
+                headingColor: document.getElementById('headingColor').value,
+                textColor: document.getElementById('textColor').value,
+                buttonBg: document.getElementById('buttonBg').value,
+                buttonText: document.getElementById('buttonText').value,
+                borderRadius: document.getElementById('borderRadius').value,
+                fontFamily: document.getElementById('fontFamily').value,
+                customCSS: document.getElementById('customCSS').value
+            };
+
+            localStorage.setItem('userStyles', JSON.stringify(styles));
+            showNotification();
+        }
+
+        // Charger les styles sauvegardés
+        function loadSavedStyles() {
+            const savedStyles = localStorage.getItem('userStyles');
+            
+            if (savedStyles) {
+                const styles = JSON.parse(savedStyles);
+                
+                // Mettre à jour les contrôles
+                document.getElementById('bgColor').value = styles.bgColor || '#f8f9fa';
+                document.getElementById('cardBg').value = styles.cardBg || '#ffffff';
+                document.getElementById('headingColor').value = styles.headingColor || '#333333';
+                document.getElementById('textColor').value = styles.textColor || '#666666';
+                document.getElementById('buttonBg').value = styles.buttonBg || '#667eea';
+                document.getElementById('buttonText').value = styles.buttonText || '#ffffff';
+                document.getElementById('borderRadius').value = styles.borderRadius || 8;
+                document.getElementById('fontFamily').value = styles.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                document.getElementById('customCSS').value = styles.customCSS || '';
+
+                // Mettre à jour l'affichage de la valeur du rayon
+                document.getElementById('borderRadiusValue').textContent = styles.borderRadius + 'px';
+
+                // Appliquer les styles
+                applyStyles();
+                applyCustomCSS();
+            }
+        }
+
+        // Appliquer le CSS personnalisé
+        function applyCustomCSS() {
+            const customCSS = document.getElementById('customCSS').value;
+            
+            // Supprimer l'ancien style personnalisé s'il existe
+            const oldStyle = document.getElementById('customStyle');
+            if (oldStyle) {
+                oldStyle.remove();
+            }
+
+            // Créer et ajouter le nouveau style
+            const style = document.createElement('style');
+            style.id = 'customStyle';
+            style.textContent = customCSS;
+            document.head.appendChild(style);
+
+            // Sauvegarder
+            saveStyles();
+        }
+
+        // Réinitialiser aux valeurs par défaut
+        function resetToDefaults() {
+            document.getElementById('bgColor').value = '#f8f9fa';
+            document.getElementById('cardBg').value = '#ffffff';
+            document.getElementById('headingColor').value = '#333333';
+            document.getElementById('textColor').value = '#666666';
+            document.getElementById('buttonBg').value = '#667eea';
+            document.getElementById('buttonText').value = '#ffffff';
+            document.getElementById('borderRadius').value = 8;
+            document.getElementById('fontFamily').value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+            document.getElementById('borderRadiusValue').textContent = '8px';
+            
+            applyStyles();
+            showNotification('Styles réinitialisés !');
+        }
+
+        // Effacer tous les styles
+        function clearStyles() {
+            localStorage.removeItem('userStyles');
+            
+            // Supprimer le style personnalisé
+            const oldStyle = document.getElementById('customStyle');
+            if (oldStyle) {
+                oldStyle.remove();
+            }
+
+            resetToDefaults();
+            document.getElementById('customCSS').value = '';
+            showNotification('Styles effacés !');
+        }
+
+        // Afficher une notification
+        function showNotification(message = 'Styles sauvegardés avec succès !') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Mettre à jour la valeur du rayon en temps réel
+        document.getElementById('borderRadius').addEventListener('input', function() {
+            document.getElementById('borderRadiusValue').textContent = this.value + 'px';
+        });
+
+        // Sauvegarder automatiquement lors des changements
+        document.getElementById('bgColor').addEventListener('input', applyStyles);
+        document.getElementById('cardBg').addEventListener('input', applyStyles);
+        document.getElementById('headingColor').addEventListener('input', applyStyles);
+        document.getElementById('textColor').addEventListener('input', applyStyles);
+        document.getElementById('buttonBg').addEventListener('input', applyStyles);
+        document.getElementById('buttonText').addEventListener('input', applyStyles);
+        document.getElementById('borderRadius').addEventListener('input', applyStyles);
+        document.getElementById('fontFamily').addEventListener('change', applyStyles);
+    </script>
+</body>
+</html>
